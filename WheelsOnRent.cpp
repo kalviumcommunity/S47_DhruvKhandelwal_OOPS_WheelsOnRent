@@ -11,6 +11,11 @@ class Vehicle{
         string color;
 
     public:
+        Vehicle(string type, int price, string color){
+            this->type = type;
+            this->price = price;
+            this->color = color;
+        }
         string get_type(){
             return type;
         }
@@ -30,6 +35,11 @@ class Customer{
         int age;
         string address;
     public:
+        Customer(string name, int age, string address){
+            this->name = name;
+            this->age = age;
+            this->address = address;
+        }
         string get_name(){
             return name;
         }
@@ -41,7 +51,7 @@ class Customer{
         }
 };
 int main(){
-    
+    cout << "Hello World";
 
     return 0;
 }
