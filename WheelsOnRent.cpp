@@ -77,6 +77,17 @@ int main() {
         cout << endl;
     }
 
+    Customer* customer = new Customer("John", 30, "123 Main St.");
+
+    cout << "Name: " << customer->get_name() << endl;
+    cout << "Age: " << customer->get_age() << endl;
+    cout << "Address: " << customer->get_address() << endl;
+
+    cout<<"Before delete"<<customer<<endl;
+    
+    delete customer;
+
+    cout<<"After delete"<<customer;
     
 
     return 0;
