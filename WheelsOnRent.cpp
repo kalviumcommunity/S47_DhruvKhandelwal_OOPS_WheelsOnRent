@@ -8,14 +8,13 @@ private:
     string type;
     int price;
     string color;
-    static int vehicle_count;
+    static int vehicle_count;  
 public:
-
-    Vehicle(string type, int price, string color) {
+        Vehicle(string type, int price, string color) {
         this->type = type;
         this->price = price;
         this->color = color;
-        vehicle_count++;
+        vehicle_count++;  
     }
 
     string get_type() {
@@ -30,24 +29,23 @@ public:
         return color;
     }
 
-    int get_vehicle_count() {
+    static int get_vehicle_count() {
         return vehicle_count;
     }
 };
-
 
 class Customer {
 private:
     string name;
     int age;
     string address;
-    static int customer_count;
+    static int customer_count; 
 public:
     Customer(string name, int age, string address) {
         this->name = name;
         this->age = age;
         this->address = address;
-        customer_count++;
+        customer_count++;  
     }
 
     string get_name() {
@@ -62,20 +60,16 @@ public:
         return address;
     }
 
-    int get_customer_count() {
+    static int get_customer_count() {
         return customer_count;
     }
 };
-
 
 int Vehicle::vehicle_count = 0;
 int Customer::customer_count = 0;
 
 int main() {
-    string type, color;
-    int price;
 
-    // Creating an array of 3 Vehicle objects
     Vehicle vehicles[3] = {
         Vehicle("Car", 100000, "Red"),
         Vehicle("Truck", 200000, "Blue"),
@@ -83,6 +77,7 @@ int main() {
     };  
 
     for (int i = 0; i < 3; i++) {
+        cout << "Vehicle " << i + 1 << ":\n";
         cout << "Type: " << vehicles[i].get_type() << endl;
         cout << "Price: " << vehicles[i].get_price() << endl;
         cout << "Color: " << vehicles[i].get_color() << endl;
@@ -91,19 +86,19 @@ int main() {
 
     Customer* customer = new Customer("John", 30, "123 Main St.");
 
+    cout << "Customer Details:\n";
     cout << "Name: " << customer->get_name() << endl;
     cout << "Age: " << customer->get_age() << endl;
     cout << "Address: " << customer->get_address() << endl;
 
-    cout << "Vehicle count: " << vehicles->get_vehicle_count() << endl;
-    cout << "Customer count: " << customer->get_customer_count() << endl;
-    cout<<"Before delete"<<customer<<endl;
+    cout << "\nTotal Vehicles: " << Vehicle::get_vehicle_count() << endl;
+    cout << "Total Customers: " << Customer::get_customer_count() << endl;
 
+    // cout << "\nBefore delete: " << customer << endl;
     delete customer;
-    customer = nullptr;
+    customer = nullptr;  
 
-    cout<<"After delete"<<customer;
-    
+    // cout << "After delete: " << customer << endl;
 
     return 0;
 }
