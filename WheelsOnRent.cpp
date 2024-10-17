@@ -44,6 +44,12 @@ public:
     static int get_vehicle_count() {
         return vehicle_count;
     }
+
+    void print_details() {
+        cout << "Type: " << type << endl;
+        cout << "Price: " << price << endl;
+        cout << "Color: " << color << endl;
+    }
 };
 
 int Vehicle::vehicle_count = 0;
@@ -90,40 +96,41 @@ public:
     static int get_customer_count() {
         return customer_count;
     }
+
+    void print_details() {
+        cout << "Name: " << name << endl;
+        cout << "Age: " << age << endl;
+        cout << "Address: " << address << endl;
+    }
 };
 
 int Customer::customer_count = 0;
 
 int main() {
-
     Vehicle vehicles[3] = {
         Vehicle("Car", 100000, "Red"),
         Vehicle("Truck", 200000, "Blue"),
         Vehicle("SUV", 150000, "Green")
     };
 
-    vehicles[0].set_type("Convertible");  
-    vehicles[1].set_price(250000);        
-    vehicles[2].set_color("Yellow");      
+    vehicles[0].set_type("Convertible");
+    vehicles[1].set_price(250000);
+    vehicles[2].set_color("Yellow");
 
     for (int i = 0; i < 3; i++) {
         cout << "Vehicle " << i + 1 << ":\n";
-        cout << "Type: " << vehicles[i].get_type() << endl;
-        cout << "Price: " << vehicles[i].get_price() << endl;
-        cout << "Color: " << vehicles[i].get_color() << endl;
+        vehicles[i].print_details();  
         cout << endl;
     }
 
     Customer* customer = new Customer("John", 30, "123 Main St.");
 
-    customer->set_name("Michael");        
-    customer->set_age(35);                
-    customer->set_address("456 Oak St."); 
+    customer->set_name("Michael");
+    customer->set_age(35);
+    customer->set_address("456 Oak St.");
 
     cout << "Customer Details:\n";
-    cout << "Name: " << customer->get_name() << endl;
-    cout << "Age: " << customer->get_age() << endl;
-    cout << "Address: " << customer->get_address() << endl;
+    customer->print_details();  
 
     cout << "\nTotal Vehicles: " << Vehicle::get_vehicle_count() << endl;
     cout << "Total Customers: " << Customer::get_customer_count() << endl;
