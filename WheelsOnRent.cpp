@@ -10,11 +10,21 @@ private:
     static int vehicle_count;
 
 public:
+    Vehicle(){
+        type = "";
+        price = 0;
+        color = "";
+        vehicle_count++;
+    }
     Vehicle(string type, int price, string color) {
         this->type = type;
         this->price = price;
         this->color = color;
         vehicle_count++;
+    }
+
+    ~Vehicle(){
+        cout<<"The Vehicle object is destroyed"<<endl;
     }
 
     string get_type() {
@@ -62,6 +72,13 @@ private:
     static int customer_count;
 
 public:
+
+    Customer(){
+        name = "";
+        age = 0;
+        address = "";
+        customer_count++;
+    }
     Customer(string name, int age, string address) {
         this->name = name;
         this->age = age;
@@ -69,6 +86,9 @@ public:
         customer_count++;
     }
 
+    ~Customer(){
+        cout<<"Customer object is destroyed"<<endl;
+    }
     string get_name() {
         return name;
     }
@@ -107,21 +127,23 @@ public:
 int Customer::customer_count = 0;
 
 int main() {
-    Vehicle vehicles[3] = {
+    Vehicle vehicles[4] = {
         Vehicle("Car", 100000, "Red"),
         Vehicle("Truck", 200000, "Blue"),
-        Vehicle("SUV", 150000, "Green")
+        Vehicle("SUV", 150000, "Green"),
+        Vehicle()
     };
 
     vehicles[0].set_type("Convertible");
     vehicles[1].set_price(250000);
     vehicles[2].set_color("Yellow");
 
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 4; i++) {
         cout << "Vehicle " << i + 1 << ":\n";
         vehicles[i].print_details();  
         cout << endl;
     }
+
 
     Customer* customer = new Customer("John", 30, "123 Main St.");
 
