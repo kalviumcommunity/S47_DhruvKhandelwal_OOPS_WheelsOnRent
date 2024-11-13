@@ -3,162 +3,160 @@
 using namespace std;
 
 class Vehicle {
-private:
+protected:
     string type;
     int price;
     string color;
     static int vehicle_count;
 
 public:
-    Vehicle(){
-        type = "";
-        price = 0;
-        color = "";
-        vehicle_count++;
-    }
-    Vehicle(string type, int price, string color) {
-        this->type = type;
-        this->price = price;
-        this->color = color;
+    Vehicle() : type(""), price(0), color("") {
         vehicle_count++;
     }
 
-    ~Vehicle(){
-        cout<<"The Vehicle object is destroyed"<<endl;
+    Vehicle(string type, int price, string color) : type(type), price(price), color(color) {
+        vehicle_count++;
     }
 
-    string get_type() {
-        return type;
+    virtual ~Vehicle() {
+        cout << "Vehicle object is destroyed" << endl;
     }
 
-    void set_type(string type) {
-        this->type = type;
-    }
-
-    int get_price() {
-        return price;
-    }
-
-    void set_price(int price) {
-        this->price = price;
-    }
-
-    string get_color() {
-        return color;
-    }
-
-    void set_color(string color) {
-        this->color = color;
+    virtual void print_details() {
+        cout << "Type: " << type << endl;
+        cout << "Price: " << price << endl;
+        cout << "Color: " << color << endl;
     }
 
     static int get_vehicle_count() {
         return vehicle_count;
     }
-
-    void print_details() {
-        cout << "Type: " << type << endl;
-        cout << "Price: " << price << endl;
-        cout << "Color: " << color << endl;
-    }
 };
 
 int Vehicle::vehicle_count = 0;
 
+class Car : public Vehicle {
+public:
+    Car(string color, int price) : Vehicle("Car", price, color) {}
+
+    void print_details() override {
+        cout << "Car Details:" << endl;
+        Vehicle::print_details();
+    }
+};
+
+class Truck : public Vehicle {
+public:
+    Truck(string color, int price) : Vehicle("Truck", price, color) {}
+
+    void print_details() override {
+        cout << "Truck Details:" << endl;
+        Vehicle::print_details();
+    }
+};
+
+class SUV : public Vehicle {
+public:
+    SUV(string color, int price) : Vehicle("SUV", price, color) {}
+
+    void print_details() override {
+        cout << "SUV Details:" << endl;
+        Vehicle::print_details();
+    }
+};
+
+// Base Customer class
 class Customer {
-private:
+protected:
     string name;
     int age;
     string address;
     static int customer_count;
 
 public:
-
-    Customer(){
-        name = "";
-        age = 0;
-        address = "";
-        customer_count++;
-    }
-    Customer(string name, int age, string address) {
-        this->name = name;
-        this->age = age;
-        this->address = address;
+    Customer() : name(""), age(0), address("") {
         customer_count++;
     }
 
-    ~Customer(){
-        cout<<"Customer object is destroyed"<<endl;
-    }
-    string get_name() {
-        return name;
+    Customer(string name, int age, string address) : name(name), age(age), address(address) {
+        customer_count++;
     }
 
-    void set_name(string name) {
-        this->name = name;
+    virtual ~Customer() {
+        cout << "Customer object is destroyed" << endl;
     }
 
-    int get_age() {
-        return age;
-    }
-
-    void set_age(int age) {
-        this->age = age;
-    }
-
-    string get_address() {
-        return address;
-    }
-
-    void set_address(string address) {
-        this->address = address;
+    virtual void print_details() {
+        cout << "Name: " << name << endl;
+        cout << "Age: " << age << endl;
+        cout << "Address: " << address << endl;
     }
 
     static int get_customer_count() {
         return customer_count;
     }
-
-    void print_details() {
-        cout << "Name: " << name << endl;
-        cout << "Age: " << age << endl;
-        cout << "Address: " << address << endl;
-    }
 };
 
 int Customer::customer_count = 0;
 
+// Subclass for Premium Customer
+class PremiumCustomer : public Customer {
+private:
+    double discount_rate;
+
+public:
+    PremiumCustomer(string name, int age, string address, double discount_rate)
+        : Customer(name, age, address), discount_rate(discount_rate) {}
+
+    void print_details() override {
+        cout << "Premium Customer Details:" << endl;
+        Customer::print_details();
+        cout << "Discount Rate: " << discount_rate * 100 << "%" << endl;
+    }
+};
+
+class RegularCustomer : public Customer {
+public:
+    RegularCustomer(string name, int age, string address) : Customer(name, age, address) {}
+
+    void print_details() override {
+        cout << "Regular Customer Details:" << endl;
+        Customer::print_details();
+    }
+};
+
 int main() {
-    Vehicle vehicles[4] = {
-        Vehicle("Car", 100000, "Red"),
-        Vehicle("Truck", 200000, "Blue"),
-        Vehicle("SUV", 150000, "Green"),
-        Vehicle()
-    };
+    Vehicle* vehicles[3];
+    vehicles[0] = new Car("Red", 100000);
+    vehicles[1] = new Truck("Blue", 200000);
+    vehicles[2] = new SUV("Green", 150000);
 
-    vehicles[0].set_type("Convertible");
-    vehicles[1].set_price(250000);
-    vehicles[2].set_color("Yellow");
-
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 3; i++) {
         cout << "Vehicle " << i + 1 << ":\n";
-        vehicles[i].print_details();  
+        vehicles[i]->print_details();
         cout << endl;
     }
 
+    for (int i = 0; i < 3; i++) {
+        delete vehicles[i];
+    }
 
-    Customer* customer = new Customer("John", 30, "123 Main St.");
+    Customer* customers[2];
+    customers[0] = new PremiumCustomer("Alice", 28, "789 Maple St.", 0.15); // 15% discount
+    customers[1] = new RegularCustomer("Bob", 32, "321 Pine St.");
 
-    customer->set_name("Michael");
-    customer->set_age(35);
-    customer->set_address("456 Oak St.");
+    for (int i = 0; i < 2; i++) {
+        cout << "Customer " << i + 1 << ":\n";
+        customers[i]->print_details();
+        cout << endl;
+    }
 
-    cout << "Customer Details:\n";
-    customer->print_details();  
+    for (int i = 0; i < 2; i++) {
+        delete customers[i];
+    }
 
     cout << "\nTotal Vehicles: " << Vehicle::get_vehicle_count() << endl;
     cout << "Total Customers: " << Customer::get_customer_count() << endl;
-
-    delete customer;
-    customer = nullptr;
 
     return 0;
 }
