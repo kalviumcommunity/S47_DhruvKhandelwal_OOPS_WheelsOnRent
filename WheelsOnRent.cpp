@@ -10,10 +10,6 @@ protected:
     static int vehicle_count;
 
 public:
-    Vehicle() : type(""), price(0), color("") {
-        vehicle_count++;
-    }
-
     Vehicle(string type, int price, string color) : type(type), price(price), color(color) {
         vehicle_count++;
     }
@@ -22,11 +18,7 @@ public:
         cout << "Vehicle object is destroyed" << endl;
     }
 
-    virtual void print_details() const {
-        cout << "Type: " << type << endl;
-        cout << "Price: " << price << endl;
-        cout << "Color: " << color << endl;
-    }
+    virtual void print_details() const = 0;
 
     static int get_vehicle_count() {
         return vehicle_count;
@@ -41,7 +33,9 @@ public:
 
     void print_details() const override {
         cout << "Car Details:" << endl;
-        Vehicle::print_details();
+        cout << "Type: " << type << endl;
+        cout << "Price: " << price << endl;
+        cout << "Color: " << color << endl;
     }
 };
 
@@ -51,7 +45,9 @@ public:
 
     void print_details() const override {
         cout << "Truck Details:" << endl;
-        Vehicle::print_details();
+        cout << "Type: " << type << endl;
+        cout << "Price: " << price << endl;
+        cout << "Color: " << color << endl;
     }
 };
 
@@ -61,7 +57,9 @@ public:
 
     void print_details() const override {
         cout << "SUV Details:" << endl;
-        Vehicle::print_details();
+        cout << "Type: " << type << endl;
+        cout << "Price: " << price << endl;
+        cout << "Color: " << color << endl;
     }
 };
 
@@ -74,10 +72,6 @@ protected:
     static int customer_count;
 
 public:
-    Customer() : name(""), age(0), address("") {
-        customer_count++;
-    }
-
     Customer(string name, int age, string address) : name(name), age(age), address(address) {
         customer_count++;
     }
@@ -86,11 +80,8 @@ public:
         cout << "Customer object is destroyed" << endl;
     }
 
-    virtual void print_details() const {
-        cout << "Name: " << name << endl;
-        cout << "Age: " << age << endl;
-        cout << "Address: " << address << endl;
-    }
+    // Pure virtual function to make Customer an abstract class
+    virtual void print_details() const = 0;
 
     static int get_customer_count() {
         return customer_count;
@@ -110,7 +101,9 @@ public:
 
     void print_details() const override {
         cout << "Premium Customer Details:" << endl;
-        Customer::print_details();
+        cout << "Name: " << name << endl;
+        cout << "Age: " << age << endl;
+        cout << "Address: " << address << endl;
         cout << "Discount Rate: " << discount_rate * 100 << "%" << endl;
     }
 };
@@ -121,7 +114,9 @@ public:
 
     void print_details() const override {
         cout << "Regular Customer Details:" << endl;
-        Customer::print_details();
+        cout << "Name: " << name << endl;
+        cout << "Age: " << age << endl;
+        cout << "Address: " << address << endl;
     }
 };
 
