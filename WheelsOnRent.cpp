@@ -1,10 +1,9 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <memory> // For smart pointers
+#include <memory> 
 using namespace std;
 
-// Vehicle Class Hierarchy
 class Vehicle {
 protected:
     string type;
@@ -20,10 +19,9 @@ public:
 
     virtual void print_details() const = 0;
 
-    virtual int calculate_tax() const = 0; 
+    virtual int calculate_tax() const = 0;
 };
 
-// Managers for Vehicle Count
 class VehicleManager {
 private:
     static int vehicle_count;
@@ -40,31 +38,29 @@ public:
 
 int VehicleManager::vehicle_count = 0;
 
-// Tax Calculation Strategy
 class TaxCalculator {
 public:
     virtual int calculate_tax(int price) const = 0;
 };
 
-// Concrete Tax Strategies
 class CarTaxCalculator : public TaxCalculator {
 public:
     int calculate_tax(int price) const override {
-        return static_cast<int>(price * 0.10); // 10% tax for cars
+        return static_cast<int>(price * 0.10); 
     }
 };
 
 class TruckTaxCalculator : public TaxCalculator {
 public:
     int calculate_tax(int price) const override {
-        return static_cast<int>(price * 0.15); // 15% tax for trucks
+        return static_cast<int>(price * 0.15); 
     }
 };
 
 class SUVTaxCalculator : public TaxCalculator {
 public:
     int calculate_tax(int price) const override {
-        return static_cast<int>(price * 0.12); // 12% tax for SUVs
+        return static_cast<int>(price * 0.12); 
     }
 };
 
@@ -90,7 +86,6 @@ public:
     }
 };
 
-// Truck Class
 class Truck : public Vehicle {
     unique_ptr<TaxCalculator> tax_calculator;
 
@@ -112,7 +107,6 @@ public:
     }
 };
 
-// SUV Class
 class SUV : public Vehicle {
     unique_ptr<TaxCalculator> tax_calculator;
 
@@ -134,7 +128,6 @@ public:
     }
 };
 
-// Customer Class Hierarchy
 class Customer {
 protected:
     string name;
@@ -150,31 +143,28 @@ public:
 
     virtual void print_details() const = 0;
 
-    virtual double calculate_discount(double amount) const = 0; // Open for extension
+    virtual double calculate_discount(double amount) const = 0;
 };
 
-// Discount Calculation Strategy
 class DiscountStrategy {
 public:
     virtual double calculate_discount(double amount) const = 0;
 };
 
-// Concrete Discount Strategies
 class PremiumDiscount : public DiscountStrategy {
 public:
     double calculate_discount(double amount) const override {
-        return amount * 0.15; // 15% discount
+        return amount * 0.15;
     }
 };
 
 class RegularDiscount : public DiscountStrategy {
 public:
     double calculate_discount(double amount) const override {
-        return amount * 0.05; // 5% discount
+        return amount * 0.05;
     }
 };
 
-// Premium Customer Class
 class PremiumCustomer : public Customer {
     unique_ptr<DiscountStrategy> discount_strategy;
 
@@ -194,7 +184,6 @@ public:
     }
 };
 
-// Regular Customer Class
 class RegularCustomer : public Customer {
     unique_ptr<DiscountStrategy> discount_strategy;
 
@@ -214,43 +203,28 @@ public:
     }
 };
 
-// Main Function
 int main() {
-    // Demonstrating polymorphism with Vehicle objects
-    vector<Vehicle*> vehicles = {
-        new Car("Red", 100000),
-        new Truck("Blue", 200000),
-        new SUV("Green", 150000)
-    };
+    vector<unique_ptr<Vehicle>> vehicles;
+    vehicles.push_back(make_unique<Car>("Red", 100000));
+    vehicles.push_back(make_unique<Truck>("Blue", 200000));
+    vehicles.push_back(make_unique<SUV>("Green", 150000));
 
-    for (size_t i = 0; i < vehicles.size(); ++i) {
-        cout << "Vehicle " << i + 1 << ":\n";
-        vehicles[i]->print_details();
+    for (const auto& vehicle : vehicles) {
+        vehicle->print_details();
         cout << "\n";
     }
 
-    for (auto vehicle : vehicles) {
-        delete vehicle;
-    }
+    vector<unique_ptr<Customer>> customers;
+    customers.push_back(make_unique<PremiumCustomer>("Alice", 28, "789 Maple St."));
+    customers.push_back(make_unique<RegularCustomer>("Bob", 32, "321 Pine St."));
 
-    // Demonstrating polymorphism with Customer objects
-    vector<Customer*> customers = {
-        new PremiumCustomer("Alice", 28, "789 Maple St."),
-        new RegularCustomer("Bob", 32, "321 Pine St.")
-    };
-
-    for (size_t i = 0; i < customers.size(); ++i) {
-        cout << "Customer " << i + 1 << ":\n";
-        customers[i]->print_details();
-        cout << "Discount on $1000: $" << customers[i]->calculate_discount(1000) << "\n";
+    for (const auto& customer : customers) {
+        customer->print_details();
+        cout << "Discount on $1000: $" << customer->calculate_discount(1000) << "\n";
         cout << "\n";
     }
 
-    for (auto customer : customers) {
-        delete customer;
-    }
-
-    cout << "\nTotal Vehicles: " << VehicleManager::get_vehicle_count() << endl;
+    cout << "Total Vehicles: " << VehicleManager::get_vehicle_count() << endl;
 
     return 0;
 }
